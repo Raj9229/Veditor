@@ -8,6 +8,14 @@ const app = express()
 const httpServer = createServer(app)
 
 
+const io = new Server(httpServer,{
+    cors:{
+        origin : "*",
+        methods :["GET" ,"POST"]
+    }
+})
+const ySocketIo = new YSocketIO(io)
+ySocketIo.initialize()
 
 app.get("/", (req, res) => {
     res.status(200).json({ message: "Hello World", success:true })
