@@ -1,9 +1,9 @@
 import './App.css'
 import {Editor}  from "@monaco-editor/react"
 import {MonacoBinding} from "y-monaco"
-import {useEffect, useRef. useMemo } from "react"
+import {useEffect, useRef, useMemo } from "react"
 import * as Y from "yjs"
-import {socketIoProvider} from "y-socket.io"
+import {SocketIOProvider} from "y-socket.io"
 
 
 
@@ -20,7 +20,7 @@ function App() {
   const handleMount = (editor)=>{
     editorRef.current = editor
 
-    const provider = new socketIoProvider("http://localhost:3000", "monaco-demo", ydoc)
+    const provider = new SocketIOProvider("http://localhost:3000", "monaco-demo", ydoc, {autocorrect: true})
     const monacoBinding = new MonacoBinding(
       ytext,
       editorRef.current.getModel(),
