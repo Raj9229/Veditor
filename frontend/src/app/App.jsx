@@ -17,18 +17,13 @@ function App() {
 
   const ydoc = useMemo(()=> new Y.Doc(), [])
   const ytext = useMemo(()=> ydoc.getText("monaco"), [ydoc])
-
+  const [users, setusers] = useState([])
 
 
   const handleMount = (editor)=>{
     editorRef.current = editor
 
-    const provider = new SocketIOProvider("http://localhost:3000", "monaco-demo", ydoc, {autocorrect: true})
-    const monacoBinding = new MonacoBinding(
-      ytext,
-      editorRef.current.getModel(),
-      new Set([editorRef.current]), 
-      provider.awareness)
+    
 
 }
 
@@ -38,6 +33,22 @@ const handleJoin = (e) => {
   window.history.pushState({}, "", `?username=${e.target.username.value}`)
 
 }
+
+useEffect(()=>{
+  if(usernsme && editorRef.current){
+    const provider = new SocketIOProvider("http://localhost:3000", "monaco-demo", ydoc, {autocorrect: true})
+    provider.awareness.setLocalStateField("user", {username})
+    provider.awareness.on("change", ()=>{})
+    const monacoBinding = new MonacoBinding(
+      ytext,
+      editorRef.current.getModel(),
+      new Set([editorRef.current]), 
+      provider.awareness)
+
+  }
+}, [editorRef.current,usernsme])
+
+
 
 
 if(!usernsme){
